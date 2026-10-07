@@ -18,7 +18,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { session, loading } = useSession();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -33,7 +33,7 @@ function AuthPage() {
     setSubmitting(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -42,7 +42,13 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Akun dibuat! Cek email untuk konfirmasi.");
+        if (data.session) {
+          toast.success("Akun dibuat! Selamat datang.");
+          navigate({ to: "/" });
+          return;
+        }
+        toast.success("Akun dibuat! Silakan masuk.");
+        setMode("signin");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
