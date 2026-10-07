@@ -14,16 +14,156 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      app_settings: {
+        Row: {
+          admin_fee: number
+          daily_submission_limit: number
+          id: string
+          member_password: string
+          min_withdraw: number
+          rate: number
+          submissions_open: boolean
+          updated_at: string
+        }
+        Insert: {
+          admin_fee?: number
+          daily_submission_limit?: number
+          id?: string
+          member_password?: string
+          min_withdraw?: number
+          rate?: number
+          submissions_open?: boolean
+          updated_at?: string
+        }
+        Update: {
+          admin_fee?: number
+          daily_submission_limit?: number
+          id?: string
+          member_password?: string
+          min_withdraw?: number
+          rate?: number
+          submissions_open?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      gmail_submissions: {
+        Row: {
+          created_at: string
+          gmail_address: string
+          hidden_from_admin: boolean
+          id: string
+          password: string
+          rate: number
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          gmail_address: string
+          hidden_from_admin?: boolean
+          id?: string
+          password: string
+          rate?: number
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          gmail_address?: string
+          hidden_from_admin?: boolean
+          id?: string
+          password?: string
+          rate?: number
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      withdrawals: {
+        Row: {
+          account_info: string
+          amount: number
+          created_at: string
+          id: string
+          method: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          account_info: string
+          amount: number
+          created_at?: string
+          id?: string
+          method: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          account_info?: string
+          amount?: number
+          created_at?: string
+          id?: string
+          method?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +290,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
